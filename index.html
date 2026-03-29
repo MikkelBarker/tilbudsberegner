@@ -109,6 +109,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <span class="km-pill" id="km-pill"></span>
       </div>
       <p class="km-note" id="km-note">Skriv adresse eller by – afstanden beregnes automatisk.</p>
+      <p id="err-address" class="err hidden" style="margin-top:4px">Indtast venligst en adresse eller by</p>
     </div>
 
     <div class="field">
@@ -140,6 +141,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <option value="100">75–150 ha</option>
         <option value="150">Over 150 ha</option>
       </select>
+      <p id="err-hectares" class="err hidden" style="margin-top:4px">Vælg venligst anlæggets størrelse</p>
     </div>
 
     <div id="windmills-field" class="field hidden">
@@ -160,6 +162,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <option value="18">16–20 vindmøller</option>
         <option value="25">Over 20 vindmøller</option>
       </select>
+      <p id="err-windmills" class="err hidden" style="margin-top:4px">Vælg venligst antal vindmøller</p>
     </div>
 
     <div id="island-note" class="island-box">
@@ -214,8 +217,8 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div class="field">
         <label class="fl">3D-model</label>
         <select id="model-src">
-          <option value="build">Jeg opbygger 3D-modellen</option>
-          <option value="provided">I leverer 3D-modellen</option>
+          <option value="build">Inkludér opbygning af 3D-model</option>
+          <option value="provided">Bygherre leverer 3D-modellen</option>
         </select>
         <p class="hint">Bemærk: Omfanget af 3D-modellen (simpel eller kompleks) kan have betydning for det endelige tilbud, som aftales nærmere via e-mail eller telefon.</p>
       </div>
@@ -543,33 +546,60 @@ function travelLines(dist) {
 
 // ── Main calculation ───────────────────────────────────────────────────────
 function runCalc() {
-  // Clear previous errors
-  el('err-type').classList.add('hidden');
-  el('err-svc').classList.add('hidden');
-  el('err-3d').classList.add('hidden');
+  // Clear all errors
+  ['err-address','err-type','err-svc','err-3d','err-hectares','err-windmills'].forEach(function(id){
+    el(id).classList.add('hidden');
+  });
+  el('address').style.borderColor = '';
 
   var hasP = selSvc.indexOf('photo') !== -1;
   var hasD = selSvc.indexOf('drone') !== -1;
   var has3 = selSvc.indexOf('3d') !== -1;
   var hasPhoto = hasP || hasD;
   var valid = true;
+  var firstErr = null;
 
+  function markErr(id, scrollEl) {
+    el(id).classList.remove('hidden');
+    if (valid) firstErr = scrollEl || el(id);
+    valid = false;
+  }
+
+  // Adresse påkrævet
+  if (!el('address').value.trim()) {
+    el('address').style.borderColor = '#c0392b';
+    markErr('err-address', el('address'));
+  }
+
+  // Projekttype påkrævet
   if (!selType) {
-    el('err-type').classList.remove('hidden');
-    el('err-type').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    valid = false;
+    markErr('err-type');
   }
+
+  // Hektar påkrævet for solceller/kombineret
+  if ((selType === 'solar' || selType === 'combined') && !el('hectares').value) {
+    markErr('err-hectares');
+  }
+
+  // Vindmøller påkrævet for vind/kombineret
+  if ((selType === 'wind' || selType === 'combined') && !el('windmills').value) {
+    markErr('err-windmills');
+  }
+
+  // Ydelser påkrævet
   if (selSvc.length === 0) {
-    el('err-svc').classList.remove('hidden');
-    if (valid) el('err-svc').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    valid = false;
+    markErr('err-svc');
   }
+
+  // 3D kræver foto/drone
   if (has3 && !hasPhoto) {
-    el('err-3d').classList.remove('hidden');
-    if (valid) el('err-3d').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    valid = false;
+    markErr('err-3d');
   }
-  if (!valid) return;
+
+  if (!valid) {
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
 
   var vp = readVp();
   if (!vp) return;
