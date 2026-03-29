@@ -119,7 +119,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <button class="tog" data-val="combined" onclick="setType(this)">Sol + vind</button>
         <button class="tog" data-val="road"     onclick="setType(this)">Vejanlæg</button>
         <button class="tog" data-val="highrise" onclick="setType(this)">Højhus</button>
-        <button class="tog" data-val="building" onclick="setType(this)">Andet byggeri</button>
+        <button class="tog" data-val="building" onclick="setType(this)">Byggeri</button>
         <button class="tog" data-val="other"    onclick="setType(this)">Andet</button>
       </div>
     </div>
@@ -567,13 +567,10 @@ function runCalc() {
   var travel = travelLines(dist);
 
   if (both) {
-    // Terrænfotografi: ydelse først, rejse sidst
     addSection([
       { l: 'Projektopstart', v: P.start },
-      { l: 'Terrænfotografi til visualisering × ' + vp + ' standpunkter à ' + fmtDKK(P.vpRate), v: vp * P.vpRate },
-      { l: 'Udlæg GPS', v: P.gps }
-    ].concat(travel), 'Terrænfotografi');
-    // Drone: ydelse først, rejse sidst
+      { l: 'Terrænfotografi til visualisering × ' + vp + ' standpunkter à ' + fmtDKK(P.vpRate), v: vp * P.vpRate }
+    ].concat(travel).concat([{ l: 'Udlæg GPS', v: P.gps }]), 'Terrænfotografi');
     addSection([
       { l: 'Dronefotografi til visualisering × ' + vp + ' standpunkter à ' + fmtDKK(DR.vpRate), v: vp * DR.vpRate },
       { l: 'Ekstra transport ½ time (drone)', v: DR.extraHalfHr }
@@ -581,15 +578,13 @@ function runCalc() {
   } else if (hasP) {
     addSection([
       { l: 'Projektopstart', v: P.start },
-      { l: 'Terrænfotografi til visualisering × ' + vp + ' standpunkter à ' + fmtDKK(P.vpRate), v: vp * P.vpRate },
-      { l: 'Udlæg GPS', v: P.gps }
-    ].concat(travel), 'Terrænfotografi');
+      { l: 'Terrænfotografi til visualisering × ' + vp + ' standpunkter à ' + fmtDKK(P.vpRate), v: vp * P.vpRate }
+    ].concat(travel).concat([{ l: 'Udlæg GPS', v: P.gps }]), 'Terrænfotografi');
   } else if (hasD) {
     addSection([
       { l: 'Projektopstart', v: P.start },
-      { l: 'Dronefotografi til visualisering × ' + vp + ' standpunkter à ' + fmtDKK(DR.vpRate), v: vp * DR.vpRate },
-      { l: 'Udlæg GPS', v: P.gps }
-    ].concat(travel), 'Dronefotografi');
+      { l: 'Dronefotografi til visualisering × ' + vp + ' standpunkter à ' + fmtDKK(DR.vpRate), v: vp * DR.vpRate }
+    ].concat(travel).concat([{ l: 'Udlæg GPS', v: P.gps }]), 'Dronefotografi');
   }
 
   if (has3) {
@@ -703,12 +698,18 @@ function showFull() {
   el('f-sub').textContent = 'Inkl. moms: ' + fmtDKK(r.totalInc) + '  ·  Alle priser er ekskl. moms';
 
   var html = '';
-  // Enhedspris pr. visualisering øverst
-  var unitPrice = selSvc.indexOf('3d') !== -1 ? D.vis : P.vpRate;
-  html += '<div class="bk-row" style="color:rgba(255,255,255,.55);font-size:12px;padding-bottom:8px;border-bottom:.5px solid rgba(255,255,255,.1);margin-bottom:4px"><span>Enhedspris pr. visualisering</span><span>' + fmtDKK(unitPrice) + ' ekskl. moms</span></div>';
+  // Stykpris = samlet ekskl. moms / antal standpunkter – stor og tydelig øverst
+  var unitPrice = Math.round(r.totalEx / r.vp);
+  var has3d = selSvc.indexOf('3d') !== -1;
+  var unitLabel = has3d ? 'Ca. stykpris pr. visualisering' : 'Ca. stykpris pr. foto';
+  html += '<div style="padding-bottom:12px;margin-bottom:10px;border-bottom:.5px solid rgba(255,255,255,.2)">';
+  html += '<div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:4px">' + unitLabel + '</div>';
+  html += '<div style="font-size:2rem;font-weight:400;color:#fff;font-family:\'DM Serif Display\',serif;line-height:1.1">' + fmtDKK(unitPrice) + '</div>';
+  html += '<div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:3px">ekskl. moms &nbsp;·&nbsp; baseret på ' + r.vp + ' standpunkter</div>';
+  html += '</div>';
+  // Poster uden sektionsoverskrifter
   for (var s = 0; s < r.sections.length; s++) {
     var sec = r.sections[s];
-    html += '<p class="bk-sec">' + sec.h + '</p>';
     for (var l = 0; l < sec.lines.length; l++) {
       var line = sec.lines[l];
       if (line.note) {
