@@ -6,10 +6,6 @@
 <title>Prisberegner – Mikkel Barker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-
-<!-- Google Maps -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_X_a_NUof4sXlPDa3qP6bj3KpNXPsMrQ&libraries=places&language=da&region=DK"></script>
-
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -21,15 +17,12 @@
   --radius:10px;--radius-lg:16px;
 }
 body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65}
-
 .wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
 .sec-lbl{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink3);margin-bottom:1.25rem;display:flex;align-items:center;gap:10px}
 .sec-lbl::after{content:'';flex:1;height:.5px;background:var(--border)}
-
 .card{background:#fff;border:.5px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1rem}
 .card h3{font-family:'DM Serif Display',serif;font-size:1.1rem;font-weight:400;margin-bottom:.2rem}
 .card .sub{font-size:13px;color:var(--ink3);margin-bottom:1.25rem;font-weight:300}
-
 label.fl{display:block;font-size:13px;color:var(--ink2);margin-bottom:5px;font-weight:500}
 input[type=text],input[type=email],input[type=tel],input[type=number],select,textarea{
   width:100%;padding:10px 13px;border:.5px solid var(--border2);border-radius:var(--radius);
@@ -37,43 +30,27 @@ input[type=text],input[type=email],input[type=tel],input[type=number],select,tex
   outline:none;transition:border-color .15s;appearance:none;-webkit-appearance:none}
 input:focus,select:focus,textarea:focus{border-color:var(--green);background:#fff}
 select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%234a4a44' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:36px;cursor:pointer}
-
 .field{margin-bottom:1.1rem}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 @media(max-width:520px){.row2{grid-template-columns:1fr}}
-
-/* Address */
 .addr-wrap{position:relative}
 .addr-wrap input{padding-right:100px}
-/* Google autocomplete dropdown sits on top */
 .pac-container{z-index:9999;font-family:'DM Sans',sans-serif;font-size:14px;border-radius:var(--radius);border:.5px solid var(--border2)}
 .km-pill{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:500;padding:3px 10px;border-radius:999px;white-space:nowrap;pointer-events:none;display:none}
 .km-pill.ok{display:block;color:var(--green);background:var(--green-l)}
 .km-pill.spin{display:block;color:var(--ink3);background:var(--surface)}
 .km-pill.err{display:block;color:#a33;background:#fdecea}
 .km-note{font-size:12px;color:var(--ink3);margin-top:5px;min-height:1.3em}
-
-/* Toggles */
 .tog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:4px}
 .tog{padding:10px 14px;border:.5px solid var(--border2);border-radius:var(--radius);background:var(--paper);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink2);cursor:pointer;transition:all .15s;text-align:center;user-select:none}
 .tog:hover{border-color:var(--green);color:var(--ink)}
 .tog.on{background:var(--green-l);border-color:var(--green);color:var(--green);font-weight:500}
-
-/* Checkbox */
-.chk-row{display:flex;align-items:center;gap:10px;margin-top:.75rem;cursor:pointer;width:fit-content}
-.chk-row input[type=checkbox]{width:17px;height:17px;flex-shrink:0;accent-color:var(--green);cursor:pointer}
-.chk-row span{font-size:13px;color:var(--ink2)}
-
-/* Viewpoint row */
 .vp-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start}
 .vp-custom{width:100px}
-.vp-hint{font-size:12px;color:var(--ink3);margin-top:4px}
-
-/* Ferry */
-.ferry-box{background:var(--surface);border-radius:var(--radius);padding:.85rem 1rem;font-size:13px;color:var(--ink2);margin-top:.85rem;display:none;align-items:flex-start;gap:8px}
-.ferry-box.show{display:flex}
-
-/* Teaser */
+.island-box{background:var(--surface);border-radius:var(--radius);padding:.85rem 1rem;font-size:13px;color:var(--ink2);margin-top:.85rem;display:none;align-items:flex-start;gap:8px}
+.island-box.show{display:flex}
+.warn-box{background:#fdecea;border-radius:var(--radius);padding:.75rem 1rem;font-size:13px;color:#a33;margin-bottom:.75rem}
+.hint{font-size:12px;color:var(--ink3);margin-top:4px;line-height:1.5}
 .teaser{background:var(--ink);color:#fff;border-radius:var(--radius-lg);padding:2rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
 .teaser::before{content:'';position:absolute;top:-80px;right:-80px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.04)}
 .t-lbl{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.5rem}
@@ -82,13 +59,9 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .blur-row{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.07);border-radius:var(--radius);padding:.85rem 1rem;font-size:13px;color:rgba(255,255,255,.5);gap:1rem;flex-wrap:wrap}
 .blur-val{font-family:monospace;filter:blur(5px);user-select:none;color:rgba(255,255,255,.7)}
 .unlock-hint{font-size:12px;color:rgba(255,255,255,.4);margin-top:.75rem;text-align:center}
-
-/* Lead form */
 .lead-card{background:var(--gold-l);border:.5px solid var(--gold-b);border-radius:var(--radius-lg);padding:1.75rem;margin-bottom:1.5rem}
 .lead-card h3{font-family:'DM Serif Display',serif;font-size:1.2rem;font-weight:400;margin-bottom:.25rem}
 .lead-card .sub{font-size:13px;color:var(--ink3);margin-bottom:1.5rem;font-weight:300}
-
-/* Result */
 .result-box{background:var(--ink);color:#fff;border-radius:var(--radius-lg);padding:2rem;margin-bottom:1rem;position:relative;overflow:hidden}
 .result-box::before{content:'';position:absolute;top:-80px;right:-80px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.04)}
 .f-lbl{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.5rem}
@@ -100,19 +73,15 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .bk-row{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;color:rgba(255,255,255,.62)}
 .bk-row.total{border-top:.5px solid rgba(255,255,255,.15);margin-top:8px;padding-top:10px;color:#fff;font-weight:500}
 .g{color:#7ecf97}
-
 .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:1.5rem}
 .tile{background:var(--surface);border-radius:var(--radius);padding:.85rem 1rem}
 .tile .v{font-size:1.2rem;font-weight:500;color:var(--ink);margin-bottom:2px}
 .tile .l{font-size:12px;color:var(--ink3)}
-
 .green-note{background:var(--green-l);border:.5px solid rgba(29,107,58,.2);border-radius:var(--radius);padding:1rem 1.25rem;font-size:13px;color:var(--green);margin-bottom:1.5rem;line-height:1.65}
-
 .success{text-align:center;padding:2rem 1rem}
 .sico{width:52px;height:52px;border-radius:50%;background:var(--green-l);display:flex;align-items:center;justify-content:center;margin:0 auto 1.1rem;font-size:20px;color:var(--green)}
 .success h3{font-family:'DM Serif Display',serif;font-size:1.4rem;font-weight:400;margin-bottom:.4rem}
 .success p{font-size:13px;color:var(--ink3)}
-
 .btn{width:100%;padding:14px;background:var(--ink);color:#fff;border:none;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:background .15s,transform .1s}
 .btn:hover{background:#2c2c28}.btn:active{transform:scale(.99)}.btn:disabled{background:var(--ink3);cursor:not-allowed}
 .btn-pill{padding:8px 16px;background:transparent;color:var(--green);border:.5px solid rgba(29,107,58,.3);border-radius:999px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .15s;display:block;width:fit-content}
@@ -125,527 +94,699 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 <body>
 <div class="wrap">
 
-  <!-- ══ STEP 1 ══════════════════════════════════════════════════════════ -->
-  <div id="step1">
-    <p class="sec-lbl">Projektdetaljer</p>
+<!-- ══ STEP 1 ══════════════════════════════════════════════════════════════ -->
+<div id="step1">
+  <p class="sec-lbl">Projektdetaljer</p>
 
-    <div class="card">
-      <h3>Om projektet</h3>
-      <p class="sub">Skriv adressen – vi henter vejkilometer fra Galten automatisk via Google Maps</p>
+  <div class="card">
+    <h3>Om projektet</h3>
+    <p class="sub">Skriv adressen – vi henter vejkilometer fra Galten automatisk</p>
 
-      <div class="field">
-        <label class="fl">Projektets adresse / by</label>
-        <div class="addr-wrap">
-          <input type="text" id="address" placeholder="F.eks. Odense, Ringkøbing eller Rønne" autocomplete="off">
-          <span class="km-pill" id="km-pill"></span>
-        </div>
-        <p class="km-note" id="km-note">Skriv adresse eller by – afstanden beregnes automatisk.</p>
+    <div class="field">
+      <label class="fl">Projektets adresse / by</label>
+      <div class="addr-wrap">
+        <input type="text" id="address" placeholder="F.eks. Odense, Ringkøbing eller Rønne" autocomplete="off">
+        <span class="km-pill" id="km-pill"></span>
       </div>
-
-      <div class="field">
-        <label class="fl">Projekttype</label>
-        <div class="tog-grid" id="type-grid">
-          <button class="tog" data-val="solar"    onclick="setType(this)">Solcelleanlæg</button>
-          <button class="tog" data-val="wind"     onclick="setType(this)">Vindmøller</button>
-          <button class="tog" data-val="combined" onclick="setType(this)">Sol + vind (energipark)</button>
-          <button class="tog" data-val="road"     onclick="setType(this)">Vejanlæg</button>
-          <button class="tog" data-val="highrise" onclick="setType(this)">Højhus</button>
-          <button class="tog" data-val="building" onclick="setType(this)">Andet byggeri</button>
-          <button class="tog" data-val="other"    onclick="setType(this)">Andet</button>
-        </div>
-      </div>
-
-      <div id="other-field" class="field hidden">
-        <label class="fl">Beskriv projektet kort</label>
-        <input type="text" id="other-desc" placeholder="F.eks. biogasanlæg, broanlæg...">
-      </div>
-
-      <!-- VE fields -->
-      <div id="ve-fields" class="hidden">
-        <div class="field">
-          <label class="fl">Anlæggets størrelse (hektar)</label>
-          <select id="hectares">
-            <option value="">Vælg interval</option>
-            <option value="5">Op til 10 ha</option>
-            <option value="20">10–30 ha</option>
-            <option value="50">30–75 ha</option>
-            <option value="100">75–150 ha</option>
-            <option value="150">Over 150 ha</option>
-          </select>
-        </div>
-        <label class="chk-row" id="wind-chk-row">
-          <input type="checkbox" id="has-wind" onchange="toggleWind()">
-          <span>Anlægget inkluderer vindmøller</span>
-        </label>
-        <div id="wind-fields" class="hidden" style="margin-top:1rem">
-          <div class="field">
-            <label class="fl">Antal vindmøller</label>
-            <select id="turbines">
-              <option value="2">1–3 møller</option>
-              <option value="5">4–7 møller</option>
-              <option value="9">8–12 møller</option>
-              <option value="13">13+ møller</option>
-            </select>
-          </div>
-        </div>
-      </div>
+      <p class="km-note" id="km-note">Skriv adresse eller by – afstanden beregnes automatisk.</p>
     </div>
 
-    <!-- ── Ydelser ──────────────────────────────────────────────────────── -->
-    <div class="card">
-      <h3>Ydelser og omfang</h3>
-      <p class="sub">Vælg de ydelser der ønskes – de kan kombineres frit</p>
-
-      <div class="field">
-        <label class="fl">Ydelser</label>
-        <div class="tog-grid">
-          <button class="tog on" data-svc="photo" onclick="toggleSvc(this)">Terrænfotografi</button>
-          <button class="tog"    data-svc="drone" onclick="toggleSvc(this)">Dronefotografi</button>
-          <button class="tog"    data-svc="3d"    onclick="toggleSvc(this)">3D-visualisering</button>
-        </div>
+    <div class="field">
+      <label class="fl">Projekttype</label>
+      <div class="tog-grid" id="type-grid">
+        <button class="tog" data-val="solar"    onclick="setType(this)">Solcelleanlæg</button>
+        <button class="tog" data-val="wind"     onclick="setType(this)">Vindmøller</button>
+        <button class="tog" data-val="combined" onclick="setType(this)">Sol + vind</button>
+        <button class="tog" data-val="road"     onclick="setType(this)">Vejanlæg</button>
+        <button class="tog" data-val="highrise" onclick="setType(this)">Højhus</button>
+        <button class="tog" data-val="building" onclick="setType(this)">Byggeri</button>
+        <button class="tog" data-val="other"    onclick="setType(this)">Andet</button>
       </div>
-
-      <!-- Terrain photo viewpoints -->
-      <div class="field hidden" id="photo-vp-field" style="margin-top:1rem">
-        <label class="fl" id="photo-vp-lbl">Antal standpunkter – terrænfotografi</label>
-        <div class="vp-row">
-          <select id="photo-vp" onchange="onVpChange('photo-vp','photo-vp-custom')">
-            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
-            <option value="4" selected>4</option><option value="5">5</option><option value="6">6</option>
-            <option value="7">7</option><option value="8">8</option><option value="9">9</option>
-            <option value="10">10</option>
-            <option value="custom">Mere end 10...</option>
-          </select>
-          <input type="number" id="photo-vp-custom" class="vp-custom hidden" min="11" placeholder="Antal">
-        </div>
-        <p id="photo-vp-err" class="err hidden">Skriv et antal over 10</p>
-      </div>
-
-      <!-- Drone viewpoints -->
-      <div class="field hidden" id="drone-vp-field">
-        <label class="fl" id="drone-vp-lbl">Antal standpunkter – dronefotografi</label>
-        <div class="vp-row">
-          <select id="drone-vp" onchange="onVpChange('drone-vp','drone-vp-custom')">
-            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
-            <option value="4" selected>4</option><option value="5">5</option><option value="6">6</option>
-            <option value="7">7</option><option value="8">8</option><option value="9">9</option>
-            <option value="10">10</option>
-            <option value="custom">Mere end 10...</option>
-          </select>
-          <input type="number" id="drone-vp-custom" class="vp-custom hidden" min="11" placeholder="Antal">
-        </div>
-        <p id="drone-vp-err" class="err hidden">Skriv et antal over 10</p>
-      </div>
-
-      <!-- 3D viewpoints -->
-      <div class="field hidden" id="3d-vp-field">
-        <label class="fl">Antal standpunkter – 3D-visualisering</label>
-        <div class="vp-row">
-          <select id="3d-vp" onchange="onVpChange('3d-vp','3d-vp-custom')">
-            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
-            <option value="4" selected>4</option><option value="5">5</option><option value="6">6</option>
-            <option value="7">7</option><option value="8">8</option><option value="9">9</option>
-            <option value="10">10</option>
-            <option value="custom">Mere end 10...</option>
-          </select>
-          <input type="number" id="3d-vp-custom" class="vp-custom hidden" min="11" placeholder="Antal">
-        </div>
-      </div>
-
-      <!-- 3D options -->
-      <div id="3d-options" class="hidden" style="margin-top:.5rem">
-        <div class="row2">
-          <div class="field">
-            <label class="fl">3D-model</label>
-            <select id="model-src">
-              <option value="build">Jeg opbygger modellen</option>
-              <option value="provided">Bygherre leverer model</option>
-            </select>
-          </div>
-          <div class="field" id="planting-field">
-            <label class="fl">Beplantningsbælter?</label>
-            <select id="planting">
-              <option value="none">Nej</option>
-              <option value="yes">Ja – år 1 + år 10</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div id="ferry-box" class="ferry-box">
-        <span style="font-size:16px;flex-shrink:0">⛴</span>
-        <span>Færge- eller broudgifter tilføjes tilbuddet og aftales særskilt.</span>
-      </div>
-      <label class="chk-row">
-        <input type="checkbox" id="is-island" onchange="toggleIsland()">
-        <span>Projektet er på en ø (Bornholm, Ærø, Fanø, Samsø m.fl.)</span>
-      </label>
+      <p id="err-type" class="err hidden" style="margin-top:6px">Vælg venligst en projekttype</p>
     </div>
 
-    <button class="btn" onclick="runCalc()">Beregn prisestimat</button>
-    <p class="small">Estimatet er vejledende og ikke bindende for nogen part.</p>
+    <div id="other-field" class="field hidden">
+      <label class="fl">Beskriv projektet kort</label>
+      <input type="text" id="other-desc" placeholder="F.eks. biogasanlæg, broanlæg...">
+    </div>
+
+    <div id="hectares-field" class="field hidden">
+      <label class="fl">Anlæggets størrelse (hektar)</label>
+      <select id="hectares">
+        <option value="">Vælg interval</option>
+        <option value="5">Op til 10 ha</option>
+        <option value="20">10–30 ha</option>
+        <option value="50">30–75 ha</option>
+        <option value="100">75–150 ha</option>
+        <option value="150">Over 150 ha</option>
+      </select>
+    </div>
+
+    <div id="windmills-field" class="field hidden">
+      <label class="fl">Antal vindmøller</label>
+      <select id="windmills">
+        <option value="">Vælg antal</option>
+        <option value="1">1 vindmølle</option>
+        <option value="2">2 vindmøller</option>
+        <option value="3">3 vindmøller</option>
+        <option value="4">4 vindmøller</option>
+        <option value="5">5 vindmøller</option>
+        <option value="6">6 vindmøller</option>
+        <option value="7">7 vindmøller</option>
+        <option value="8">8 vindmøller</option>
+        <option value="9">9 vindmøller</option>
+        <option value="10">10 vindmøller</option>
+        <option value="12">11–15 vindmøller</option>
+        <option value="18">16–20 vindmøller</option>
+        <option value="25">Over 20 vindmøller</option>
+      </select>
+    </div>
+
+    <div id="island-note" class="island-box">
+      <span style="font-size:16px;flex-shrink:0">⛴</span>
+      <span>Projektet ser ud til at ligge på en ø. Udgifter til færge eller bro aftales særskilt og tilføjes det endelige tilbud.</span>
+    </div>
+    <div id="bornholm-note" class="island-box">
+      <span style="font-size:16px;flex-shrink:0">⛴</span>
+      <span>Bornholm kræver færge eller fly og muligvis overnatning. Transport aftales særskilt – den endelige pris oplyses i tilbuddet.</span>
+    </div>
+    <div id="abroad-note" class="island-box">
+      <span style="font-size:16px;flex-shrink:0">✈️</span>
+      <span>Projektet ser ud til at ligge i udlandet eller Sverige. Transport, eventuel overnatning og øvrige rejseudgifter aftales særskilt – den endelige pris oplyses i tilbuddet.</span>
+    </div>
   </div>
 
-  <!-- ══ STEP 2 ══════════════════════════════════════════════════════════ -->
-  <div id="step2" class="hidden">
-    <p class="sec-lbl">Dit prisestimat</p>
+  <div class="card">
+    <h3>Ydelser og omfang</h3>
+    <p class="sub">Vælg de ydelser der ønskes – de kan kombineres frit</p>
 
-    <div class="teaser">
-      <p class="t-lbl">Estimeret prisinterval inkl. moms</p>
-      <p class="t-range" id="teaser-range">–</p>
-      <p class="t-sub" id="teaser-sub"></p>
-      <div class="blur-row">
-        <span>Præcis specifikation pr. post</span>
-        <span class="blur-val" id="blur-val">XX.XXX kr. inkl. moms</span>
+    <div class="field">
+      <label class="fl">Ydelser</label>
+      <div class="tog-grid">
+        <button class="tog on" data-svc="photo" onclick="toggleSvc(this)">Terrænfotografi</button>
+        <button class="tog"    data-svc="drone" onclick="toggleSvc(this)">Dronefotografi</button>
+        <button class="tog"    data-svc="3d"    onclick="toggleSvc(this)">3D-visualisering</button>
       </div>
-      <p class="unlock-hint">Udfyld navn og e-mail herunder for at se den præcise pris</p>
+      <p id="err-svc" class="err hidden" style="margin-top:6px">Vælg mindst én ydelse</p>
+      <p id="err-3d" class="err hidden" style="margin-top:6px">3D-visualisering forudsætter terrænfotografi eller dronefotografi</p>
     </div>
 
-    <div class="lead-card" id="lead-form">
-      <h3>Se den præcise pris</h3>
-      <p class="sub">Vi sender dig et detaljeret tilbud inden for 1–2 hverdage – ingen forpligtelse</p>
-      <div class="row2">
-        <div class="field">
-          <label class="fl">Navn *</label>
-          <input type="text" id="c-name" placeholder="Dit fulde navn">
-        </div>
-        <div class="field">
-          <label class="fl">E-mail *</label>
-          <input type="email" id="c-email" placeholder="din@mail.dk">
-        </div>
+    <div id="vp-field" class="field" style="margin-top:1rem">
+      <label class="fl">Antal standpunkter</label>
+      <div class="vp-row">
+        <select id="shared-vp" onchange="onVpChange()">
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+          <option value="4" selected>4</option><option value="5">5</option><option value="6">6</option>
+          <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+          <option value="10">10</option>
+          <option value="custom">Mere end 10...</option>
+        </select>
+        <input type="number" id="vp-custom" class="vp-custom hidden" min="11" placeholder="Antal">
+      </div>
+      <p class="hint">Et standpunkt er et geografisk sted hvorfra projektet synliggøres – typisk nærliggende veje, stier eller bebyggelse med udsigt til anlægget.</p>
+      <p id="vp-err" class="err hidden">Skriv et antal over 10</p>
+    </div>
+
+    <div id="d3-options" class="hidden">
+      <div id="d3-warn" class="warn-box hidden">
+        3D-visualisering forudsætter terrænfotografi eller dronefotografi.
       </div>
       <div class="field">
-        <label class="fl">Telefon <span style="font-weight:300;color:var(--ink3)">(valgfrit)</span></label>
-        <input type="tel" id="c-phone" placeholder="Valgfrit">
+        <label class="fl">3D-model</label>
+        <select id="model-src">
+          <option value="build">Jeg opbygger 3D-modellen</option>
+          <option value="provided">I leverer 3D-modellen</option>
+        </select>
+        <p class="hint">Bemærk: Omfanget af 3D-modellen (simpel eller kompleks) kan have betydning for det endelige tilbud, som aftales nærmere via e-mail eller telefon.</p>
       </div>
-      <div class="field">
-        <label class="fl">Bemærkninger <span style="font-weight:300;color:var(--ink3)">(valgfrit)</span></label>
-        <textarea id="c-notes" rows="2" placeholder="Tidsfrist, særlige ønsker, spørgsmål..."></textarea>
-      </div>
-      <button class="btn" id="send-btn" onclick="sendLead()">Vis præcis pris og send forespørgsel</button>
-      <p class="small" style="margin-top:.75rem">Ved at sende giver du samtykke til at Mikkel Barker ApS kontakter dig med tilbud. Ingen videregivelse til tredjepart.</p>
-    </div>
-
-    <div id="full-result" class="hidden">
-      <div class="result-box">
-        <p class="f-lbl">Præcis pris inkl. moms</p>
-        <p class="f-price" id="f-total">–</p>
-        <p class="f-sub" id="f-sub"></p>
-        <div class="bk" id="bk-list"></div>
-      </div>
-      <div style="margin-top:1rem">
-        <div class="info-grid" id="info-tiles"></div>
-        <div class="green-note" id="green-note"></div>
-        <div class="success">
-          <div class="sico">✓</div>
-          <h3>Tilbud sendt til din indbakke</h3>
-          <p>Vi vender tilbage inden for 1–2 hverdage.<br>Spørgsmål? Ring på <strong>29 61 34 90</strong>.</p>
-          <button class="btn-pill" style="margin:1.5rem auto 0" onclick="reset()">← Lav ny beregning</button>
-        </div>
+      <div class="field" id="planting-field">
+        <label class="fl">Tilføj beplantningsbælte?</label>
+        <select id="planting">
+          <option value="none">Nej</option>
+          <option value="yes">Ja – visualisering af udvokset beplantningsbælte</option>
+        </select>
+        <p class="hint">År 1 (nyetableret) er inkluderet i den første visualisering.</p>
       </div>
     </div>
-
-    <button class="btn-pill" id="back-btn" style="margin-top:1.5rem" onclick="reset()">← Ret beregning</button>
   </div>
+
+  <button class="btn" onclick="runCalc()">Beregn prisestimat</button>
+  <p class="small">Estimatet er vejledende og ikke bindende for nogen part.</p>
+</div>
+
+<!-- ══ STEP 2 ══════════════════════════════════════════════════════════════ -->
+<div id="step2" class="hidden">
+  <p class="sec-lbl">Dit prisestimat</p>
+
+  <div class="teaser">
+    <p class="t-lbl">Estimeret prisinterval ekskl. moms</p>
+    <p class="t-range" id="teaser-range">–</p>
+    <p class="t-sub" id="teaser-sub"></p>
+    <div style="margin-bottom:1rem">
+      <p style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:3px" id="teaser-unit-label">Ca. stykpris pr. visualisering</p>
+      <p style="font-family:'DM Serif Display',serif;font-size:1.5rem;font-weight:400;color:#fff;line-height:1.1" id="teaser-unit-price">–</p>
+    </div>
+    <div class="blur-row">
+      <span>Præcis specifikation pr. post</span>
+      <span class="blur-val" id="blur-val">XX.XXX kr. ekskl. moms</span>
+    </div>
+    <p class="unlock-hint">Udfyld navn og e-mail herunder for at se den præcise pris</p>
+  </div>
+
+  <div class="lead-card" id="lead-form">
+    <h3>Se den præcise pris</h3>
+    <p class="sub">Vi sender dig et detaljeret tilbud inden for 1–2 hverdage – ingen forpligtelse</p>
+    <div class="row2">
+      <div class="field">
+        <label class="fl">Fornavn *</label>
+        <input type="text" id="c-firstname" placeholder="Fornavn">
+      </div>
+      <div class="field">
+        <label class="fl">Efternavn *</label>
+        <input type="text" id="c-lastname" placeholder="Efternavn">
+      </div>
+    </div>
+    <div class="field">
+      <label class="fl">E-mail *</label>
+      <input type="email" id="c-email" placeholder="din@mail.dk">
+    </div>
+    <div class="field">
+      <label class="fl">Telefon <span style="font-weight:300;color:var(--ink3)">(valgfrit)</span></label>
+      <input type="tel" id="c-phone" placeholder="Valgfrit">
+    </div>
+    <div class="field">
+      <label class="fl">Bemærkninger <span style="font-weight:300;color:var(--ink3)">(valgfrit)</span></label>
+      <textarea id="c-notes" rows="2" placeholder="Tidsfrist, særlige ønsker, spørgsmål..."></textarea>
+    </div>
+    <button class="btn" id="send-btn" onclick="sendLead()">Vis præcis pris og send forespørgsel</button>
+    <p class="small" style="margin-top:.75rem">Ved at sende giver du samtykke til at Mikkel Barker ApS kontakter dig med tilbud. Ingen videregivelse til tredjepart.</p>
+  </div>
+
+  <div id="full-result" class="hidden">
+    <div class="result-box">
+      <p class="f-lbl">Præcis pris ekskl. moms</p>
+      <p class="f-price" id="f-total">–</p>
+      <p class="f-sub" id="f-sub"></p>
+      <div class="bk" id="bk-list"></div>
+    </div>
+    <div style="margin-top:1rem">
+      <div class="info-grid" id="info-tiles"></div>
+      <button class="btn-pill" onclick="reset()" style="margin-bottom:1.5rem">← Lav ny beregning</button>
+      <div class="success">
+        <div class="sico">✓</div>
+        <h3>Tak – din forespørgsel er modtaget</h3>
+        <p>Jeg kigger på det så hurtigt jeg kan og gør mit bedste for at vende tilbage inden for 2 hverdage.<br><br>Haster det? Ring direkte på <strong>29 61 34 90</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-pill" id="back-btn" style="margin-top:1.5rem" onclick="reset()">← Ret beregning</button>
+</div>
 
 </div><!-- /wrap -->
 
 <script>
-// ── Rates ──────────────────────────────────────────────────────────────────
-const P  = { start:1275, vpRate:1725, gps:1350, transHr:675, kmRate:3.81, maxKm:300, maxHr:3 };
-const DR = { vpRate:1725, extraHalfHr:337.5 }; // drone addon when combined with terrain
-const D  = { bSm:3200, bMd:4200, bLg:5265, bXl:6500, bXxl:8000, bBld:4000, bProv:1200,
-             yr1:1875, yr10:785, vis:785 };
-const VAT = 1.25;
-const GALTEN = '8464 Galten, Danmark';
+// ══════════════════════════════════════════════════════════════════════════
+// PRISKONFIGURATION – justér disse værdier direkte her
+// ══════════════════════════════════════════════════════════════════════════
+
+// TERRÆNFOTOGRAFI & DRONE
+var P = {
+  start:    1275,   // Projektopstart (kr.)
+  vpRate:   1725,   // Pris pr. standpunkt – terrænfotografi (kr.)
+  gps:      1350,   // Udlæg GPS (kr.)
+  transHr:   675,   // Transporttimepris (kr./time)
+  kmRate:   3.81,   // Kørselspris (kr./km)
+  maxKm:     300,   // Maks kørsel der faktureres (km)
+  maxHr:       3    // Maks transporttimer der faktureres
+};
+
+// DRONEFOTOGRAFI (tillæg til terrænfotografi)
+var DR = {
+  vpRate:       1725,   // Pris pr. standpunkt – drone (kr.)
+  extraHalfHr:  337.5   // Ekstra ½ times transport ved drone (kr.)
+};
+
+// 3D-VISUALISERING
+var D = {
+  // Opbygning af 3D-model (skalerer med anlægsstørrelse)
+  bSm:   4500,   // Op til 10 ha
+  bMd:   5500,   // 10–30 ha
+  bLg:   7000,   // 30–75 ha
+  bXl:   8500,   // 75–150 ha
+  bXxl: 10000,   // Over 150 ha
+  bBld:  4000,   // Byggeri / højhus / vejanlæg
+  bProv: 1200,   // Bygherre leverer model (opbygning reduceret)
+
+  // Visualiseringer pr. standpunkt
+  yr1:   1875,   // År 1 – nyetableret (pr. stk.)
+  yr10:   785,   // År 5 og 10 – fuldt udvokset beplantning (pr. stk.)
+  vis:    785    // Standard visualisering u. beplantning (pr. stk.)
+};
+
+// ══════════════════════════════════════════════════════════════════════════
+
+var VAT     = 1.25;
+var GALTEN  = '8464 Galten, Danmark';
+var ISLANDS = ['ærø','fanø','samsø','læsø','anholt','mandø','langeland',
+               'marstal','ærøskøbing','søby','fanø bad','nordby'];
+var BORNHOLM = ['bornholm','rønne','nexø','allinge','gudhjem','hasle','aakirkeby'];
+
+// EmailJS – erstat hvis nødvendigt
+var EJS_SERVICE  = 'service_ym01yr9';
+var EJS_TEMPLATE = 'template_wqmeusj';
+var EJS_KEY      = 'utb96sMAnKoOEjW68';
 
 // ── State ──────────────────────────────────────────────────────────────────
-let selType=null, selSvc=['photo'], routeKm=null, calcR={};
-let autocomplete=null, geocoder=null, distService=null, mapsReady=false;
+var selType  = null;
+var selSvc   = ['photo'];
+var routeKm  = null;
+var isIsland = false;
+var isBornholm = false;
+var isAbroad = false;
+var calcR = {};
+var mapsReady = false;
 
-const $  = id => document.getElementById(id);
-const show = id => $(id).classList.remove('hidden');
-const hide = id => $(id).classList.add('hidden');
-const fmtDKK = n => new Intl.NumberFormat('da-DK',{style:'currency',currency:'DKK',maximumFractionDigits:0}).format(Math.round(n));
+// ── Helpers ────────────────────────────────────────────────────────────────
+function el(id) { return document.getElementById(id); }
+function show(id) { el(id).classList.remove('hidden'); }
+function hide(id) { el(id).classList.add('hidden'); }
+function fmtDKK(n) {
+  return new Intl.NumberFormat('da-DK', {style:'currency', currency:'DKK', maximumFractionDigits:0}).format(Math.round(n));
+}
 
-// ── Google Maps init ───────────────────────────────────────────────────────
-function initMaps(){
-  geocoder    = new google.maps.Geocoder();
-  distService = new google.maps.DistanceMatrixService();
-  autocomplete = new google.maps.places.Autocomplete($('address'),{
-    componentRestrictions:{country:'dk'},
-    fields:['formatted_address','geometry','name'],
-    types:['geocode','establishment']
+// ── Google Maps ────────────────────────────────────────────────────────────
+function initMaps() {
+  var distSvc = new google.maps.DistanceMatrixService();
+  var ac = new google.maps.places.Autocomplete(el('address'), {
+    fields: ['formatted_address', 'geometry', 'name', 'address_components'],
+    types: ['geocode', 'establishment']
   });
-  autocomplete.addListener('place_changed', onPlaceSelected);
+  ac.addListener('place_changed', function() {
+    var place = ac.getPlace();
+    if (!place || !place.geometry) {
+      setPill('err', '?');
+      setNote('Adresse ikke fundet – prøv at vælge fra listen.');
+      routeKm = null;
+      return;
+    }
+
+    // Detect country
+    var countryCode = '';
+    var comps = place.address_components || [];
+    for (var i = 0; i < comps.length; i++) {
+      if (comps[i].types.indexOf('country') !== -1) {
+        countryCode = comps[i].short_name.toUpperCase();
+        break;
+      }
+    }
+    isAbroad = (countryCode !== '' && countryCode !== 'DK');
+
+    var combined = [
+      place.formatted_address || '',
+      place.name || '',
+      comps.map(function(c){ return c.long_name; }).join(' ')
+    ].join(' ').toLowerCase();
+
+    isBornholm = BORNHOLM.some(function(b){ return combined.indexOf(b) !== -1; });
+    isIsland   = !isBornholm && ISLANDS.some(function(isl){ return combined.indexOf(isl) !== -1; });
+
+    // Show relevant note
+    el('island-note').classList.remove('show');
+    el('bornholm-note').classList.remove('show');
+    el('abroad-note').classList.remove('show');
+    if (isAbroad)        { el('abroad-note').classList.add('show'); }
+    else if (isBornholm) { el('bornholm-note').classList.add('show'); }
+    else if (isIsland)   { el('island-note').classList.add('show'); }
+
+    setPill('spin', '…');
+    setNote('Beregner vejkilometer...');
+    distSvc.getDistanceMatrix({
+      origins: [GALTEN],
+      destinations: [place.geometry.location],
+      travelMode: 'DRIVING',
+      unitSystem: google.maps.UnitSystem.METRIC
+    }, function(res, status) {
+      if (status === 'OK' && res.rows[0].elements[0].status === 'OK') {
+        routeKm = Math.round(res.rows[0].elements[0].distance.value / 1000);
+        setPill('ok', routeKm + ' km');
+        setNote('Vejafstand fra Galten: ' + routeKm + ' km – bruges til kørsel og transporttid.');
+      } else {
+        routeKm = null;
+        setPill('err', '?');
+        if (isAbroad) {
+          setNote('Udenlandsk destination – endelig transportpris aftales særskilt.');
+        } else {
+          setNote('Kunne ikke beregne afstand – transport sættes til 0 kr.');
+        }
+      }
+    });
+  });
   mapsReady = true;
 }
 
-function onPlaceSelected(){
-  const place = autocomplete.getPlace();
-  if(!place.geometry){
-    setPill('err','?'); setNote('Adresse ikke fundet – prøv at vælge fra listen.'); routeKm=null; return;
-  }
-  const dest = place.geometry.location;
-  setPill('spin','…'); setNote('Beregner vejkilometer...');
-  distService.getDistanceMatrix({
-    origins:[GALTEN],
-    destinations:[dest],
-    travelMode:'DRIVING',
-    unitSystem:google.maps.UnitSystem.METRIC,
-    language:'da'
-  }, (res,status) => {
-    if(status==='OK' && res.rows[0].elements[0].status==='OK'){
-      const m = res.rows[0].elements[0].distance.value;
-      routeKm = Math.round(m/1000);
-      setPill('ok', routeKm+' km');
-      setNote(`Vejafstand fra Galten: ${routeKm} km – bruges til kørsel og transporttid.`);
-    } else {
-      setPill('err','?'); setNote('Kunne ikke beregne afstand – transport sættes til 0 kr.'); routeKm=null;
-    }
-  });
+function setPill(cls, txt) {
+  var p = el('km-pill');
+  p.className = 'km-pill ' + cls;
+  p.textContent = txt;
 }
-
-function setPill(cls,txt){ const p=$('km-pill'); p.className='km-pill '+cls; p.textContent=txt; }
-function setNote(txt){ $('km-note').textContent=txt; }
-
-// Fallback if Maps fails to load
-window.initMaps = initMaps;
-window.addEventListener('load',()=>{ if(!mapsReady && window.google) initMaps(); });
+function setNote(txt) { el('km-note').textContent = txt; }
 
 // ── Type toggle ────────────────────────────────────────────────────────────
-function setType(btn){
-  document.querySelectorAll('#type-grid .tog').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on'); selType=btn.dataset.val;
-  hide('ve-fields'); hide('other-field'); hide('wind-chk-row');
-  $('has-wind').checked=false; hide('wind-fields');
-  if(['solar','combined'].includes(selType)){ show('ve-fields'); }
-  else if(selType==='wind'){ show('ve-fields'); show('wind-chk-row'); $('has-wind').checked=true; show('wind-fields'); }
-  else if(selType==='other'){ show('other-field'); }
+function setType(btn) {
+  var btns = document.querySelectorAll('#type-grid .tog');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('on');
+  btn.classList.add('on');
+  selType = btn.getAttribute('data-val');
+  hide('hectares-field');
+  hide('windmills-field');
+  hide('other-field');
+  if (selType === 'solar') {
+    show('hectares-field');
+  } else if (selType === 'wind') {
+    show('windmills-field');
+  } else if (selType === 'combined') {
+    show('hectares-field');
+    show('windmills-field');
+  } else if (selType === 'other') {
+    show('other-field');
+  }
   updatePlanting();
-}
-
-function toggleWind(){ $('has-wind').checked ? show('wind-fields') : hide('wind-fields'); }
-function toggleIsland(){ $('is-island').checked ? $('ferry-box').classList.add('show') : $('ferry-box').classList.remove('show'); }
-function updatePlanting(){
-  const noBlt = ['building','highrise','road'].includes(selType);
-  noBlt ? hide('planting-field') : show('planting-field');
 }
 
 // ── Service toggles ────────────────────────────────────────────────────────
-function toggleSvc(btn){
+function toggleSvc(btn) {
   btn.classList.toggle('on');
-  selSvc = Array.from(document.querySelectorAll('[data-svc].on')).map(b=>b.dataset.svc);
+  selSvc = [];
+  var svcBtns = document.querySelectorAll('[data-svc].on');
+  for (var i = 0; i < svcBtns.length; i++) {
+    selSvc.push(svcBtns[i].getAttribute('data-svc'));
+  }
   refreshSvcUI();
 }
 
-function refreshSvcUI(){
-  const hasP=selSvc.includes('photo'), hasD=selSvc.includes('drone'), has3=selSvc.includes('3d');
-  const both=hasP&&hasD;
+function refreshSvcUI() {
+  var hasP = selSvc.indexOf('photo') !== -1;
+  var hasD = selSvc.indexOf('drone') !== -1;
+  var has3 = selSvc.indexOf('3d') !== -1;
+  var hasPhoto = hasP || hasD;
 
-  // VP fields
-  hasP||both ? show('photo-vp-field') : hide('photo-vp-field');
-  hasD ? show('drone-vp-field')  : hide('drone-vp-field');
-  has3 ? show('3d-vp-field')    : hide('3d-vp-field');
-
-  // Labels
-  $('photo-vp-lbl').textContent = both ? 'Antal standpunkter – terrænfotografi' : 'Antal standpunkter';
-  $('drone-vp-lbl').textContent = both ? 'Antal standpunkter – dronefotografi'  : 'Antal standpunkter';
+  // VP field always visible when anything selected
+  if (selSvc.length > 0) { show('vp-field'); } else { hide('vp-field'); }
 
   // 3D options
-  has3 ? show('3d-options') : hide('3d-options');
+  if (has3) {
+    show('d3-options');
+    if (hasPhoto) { hide('d3-warn'); } else { show('d3-warn'); }
+  } else {
+    hide('d3-options');
+  }
   updatePlanting();
 }
 
-// Show initial state
-refreshSvcUI();
-
-// ── Viewpoint helpers ──────────────────────────────────────────────────────
-function onVpChange(selId, customId){
-  $(selId).value==='custom' ? show(customId) : hide(customId);
+function updatePlanting() {
+  var noBlt = (selType === 'building' || selType === 'highrise' || selType === 'road');
+  if (noBlt) { hide('planting-field'); } else { show('planting-field'); }
 }
 
-function readVp(selId, customId, errId){
-  if($(selId).value==='custom'){
-    const n=parseInt($(customId).value);
-    if(!n||n<11){ if(errId) show(errId); return null; }
-    if(errId) hide(errId); return n;
+// ── Viewpoints ─────────────────────────────────────────────────────────────
+function onVpChange() {
+  if (el('shared-vp').value === 'custom') {
+    show('vp-custom');
+  } else {
+    hide('vp-custom');
+    hide('vp-err');
   }
-  if(errId) hide(errId);
-  return parseInt($(selId).value);
 }
 
-// ── Travel cost helper ─────────────────────────────────────────────────────
-function travelLines(dist, label){
-  const km=Math.min(dist,P.maxKm);
-  const rawHr=dist>0?dist/80:0;
-  const hr=Math.min(Math.round(rawHr*2)/2,P.maxHr);
-  const lines=[];
-  if(km>0) lines.push({l:`Kørsel ${km} km (à ${P.kmRate} kr.)`, v:km*P.kmRate});
-  if(hr>0) lines.push({l:`Transport ${hr} timer`, v:hr*P.transHr});
+function readVp() {
+  if (el('shared-vp').value === 'custom') {
+    var n = parseInt(el('vp-custom').value);
+    if (!n || n < 11) { show('vp-err'); return null; }
+    hide('vp-err');
+    return n;
+  }
+  hide('vp-err');
+  return parseInt(el('shared-vp').value);
+}
+
+// ── Travel lines ───────────────────────────────────────────────────────────
+function travelLines(dist) {
+  var km = Math.min(dist, P.maxKm);
+  var rawHr = dist > 0 ? dist / 80 : 0;
+  var hr = Math.min(Math.round(rawHr * 2) / 2, P.maxHr);
+  var lines = [];
+  if (km > 0) lines.push({ l: 'Kørsel ' + km + ' km (à ' + P.kmRate + ' kr.)', v: km * P.kmRate });
+  if (hr > 0) lines.push({ l: 'Transport ' + hr + ' timer', v: hr * P.transHr });
   return lines;
 }
 
 // ── Main calculation ───────────────────────────────────────────────────────
-function runCalc(){
-  if(!selType){ alert('Vælg venligst en projekttype.'); return; }
-  if(!selSvc.length){ alert('Vælg mindst én ydelse.'); return; }
+function runCalc() {
+  // Clear previous errors
+  el('err-type').classList.add('hidden');
+  el('err-svc').classList.add('hidden');
+  el('err-3d').classList.add('hidden');
 
-  const hasP=selSvc.includes('photo'), hasD=selSvc.includes('drone'), has3=selSvc.includes('3d');
-  const both=hasP&&hasD;
-  const dist=routeKm||0;
+  var hasP = selSvc.indexOf('photo') !== -1;
+  var hasD = selSvc.indexOf('drone') !== -1;
+  var has3 = selSvc.indexOf('3d') !== -1;
+  var hasPhoto = hasP || hasD;
+  var valid = true;
 
-  // Read viewpoints
-  let vpP=null, vpD=null, vpT=null;
-  if(hasP){ vpP=readVp('photo-vp','photo-vp-custom','photo-vp-err'); if(!vpP) return; }
-  if(hasD){ vpD=readVp('drone-vp','drone-vp-custom','drone-vp-err'); if(!vpD) return; }
-  if(has3){ vpT=readVp('3d-vp','3d-vp-custom',null)||4; }
+  if (!selType) {
+    el('err-type').classList.remove('hidden');
+    el('err-type').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    valid = false;
+  }
+  if (selSvc.length === 0) {
+    el('err-svc').classList.remove('hidden');
+    if (valid) el('err-svc').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    valid = false;
+  }
+  if (has3 && !hasPhoto) {
+    el('err-3d').classList.remove('hidden');
+    if (valid) el('err-3d').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    valid = false;
+  }
+  if (!valid) return;
 
-  const sections=[];
-  let totalEx=0;
-  const a=(lines,sec)=>{ sections.push({h:sec,lines}); totalEx+=lines.reduce((s,l)=>s+(l.v||0),0); };
+  var vp = readVp();
+  if (!vp) return;
 
-  if(both){
-    // ── Combined: one startup, one GPS, one travel ──────────────────────
-    const shared=[
-      {l:'Projektopstart',v:P.start},
-      {l:'Udlæg GPS',v:P.gps},
-      ...travelLines(dist)
-    ];
-    const photoLines=[...shared, {l:`Terrænfotografi × ${vpP} standpunkter`,v:vpP*P.vpRate}];
-    a(photoLines,'Terrænfotografi');
-    const droneLines=[
-      {l:`Dronefotografi × ${vpD} standpunkter`,v:vpD*DR.vpRate},
-      {l:'Ekstra transport ½ time (drone)',v:DR.extraHalfHr}
-    ];
-    a(droneLines,'Dronefotografi (tillæg)');
-  } else if(hasP){
-    // ── Terrain only ────────────────────────────────────────────────────
-    a([
-      {l:'Projektopstart',v:P.start},
-      {l:`Terrænfotografi × ${vpP} standpunkter`,v:vpP*P.vpRate},
-      {l:'Udlæg GPS',v:P.gps},
-      ...travelLines(dist)
-    ],'Terrænfotografi');
-  } else if(hasD){
-    // ── Drone only: own startup + travel ───────────────────────────────
-    a([
-      {l:'Projektopstart',v:P.start},
-      {l:`Dronefotografi × ${vpD} standpunkter`,v:vpD*DR.vpRate},
-      {l:'Udlæg GPS',v:P.gps},
-      ...travelLines(dist)
-    ],'Dronefotografi');
+  var dist = routeKm || 0;
+  var sections = [];
+  var totalEx = 0;
+
+  function addSection(lines, heading) {
+    var sum = 0;
+    for (var i = 0; i < lines.length; i++) { sum += (lines[i].v || 0); }
+    sections.push({ h: heading, lines: lines });
+    totalEx += sum;
   }
 
-  if(has3){
-    // ── 3D ─────────────────────────────────────────────────────────────
-    const ms=$('model-src').value;
-    const isBld=['building','highrise','road'].includes(selType);
-    const pl=isBld?'none':$('planting').value;
-    const hv=parseInt($('hectares')?.value)||20;
-    let bc=D.bProv;
-    if(ms==='build'){
-      if(isBld) bc=D.bBld;
-      else if(hv<=5) bc=D.bSm;
-      else if(hv<=20) bc=D.bMd;
-      else if(hv<=50) bc=D.bLg;
-      else if(hv<=100) bc=D.bXl;
-      else bc=D.bXxl;
+  var both = hasP && hasD;
+  var travel = travelLines(dist);
+
+  if (both) {
+    addSection([
+      { l: 'Projektopstart', v: P.start },
+      { l: 'Terrænfotografi til visualisering × ' + vp + ' standpunkter à ' + fmtDKK(P.vpRate), v: vp * P.vpRate }
+    ].concat(travel).concat([{ l: 'Udlæg GPS', v: P.gps }]), 'Terrænfotografi');
+    addSection([
+      { l: 'Dronefotografi til visualisering × ' + vp + ' standpunkter à ' + fmtDKK(DR.vpRate), v: vp * DR.vpRate },
+      { l: 'Ekstra transport ½ time (drone)', v: DR.extraHalfHr }
+    ], 'Dronefotografi (tillæg)');
+  } else if (hasP) {
+    addSection([
+      { l: 'Projektopstart', v: P.start },
+      { l: 'Terrænfotografi til visualisering × ' + vp + ' standpunkter à ' + fmtDKK(P.vpRate), v: vp * P.vpRate }
+    ].concat(travel).concat([{ l: 'Udlæg GPS', v: P.gps }]), 'Terrænfotografi');
+  } else if (hasD) {
+    addSection([
+      { l: 'Projektopstart', v: P.start },
+      { l: 'Dronefotografi til visualisering × ' + vp + ' standpunkter à ' + fmtDKK(DR.vpRate), v: vp * DR.vpRate }
+    ].concat(travel).concat([{ l: 'Udlæg GPS', v: P.gps }]), 'Dronefotografi');
+  }
+
+  if (has3) {
+    var ms = el('model-src').value;
+    var isBld = (selType === 'building' || selType === 'highrise' || selType === 'road');
+    var isSolar = (selType === 'solar' || selType === 'combined');
+    var pl = isBld ? 'none' : el('planting').value;
+    var hv = parseInt(el('hectares').value) || 20;
+    var bc = D.bProv;
+    if (ms === 'build') {
+      if (isBld)      bc = D.bBld;
+      else if (hv <= 5)   bc = D.bSm;
+      else if (hv <= 20)  bc = D.bMd;
+      else if (hv <= 50)  bc = D.bLg;
+      else if (hv <= 100) bc = D.bXl;
+      else                bc = D.bXxl;
     }
-    const d3lines=[{l:`3D-opbygning (${ms==='build'?'inkl. modellering':'leveret model'})`,v:bc}];
-    if(pl==='yes'){
-      d3lines.push({l:'3D-visualisering: År 1 (nyetableret)',v:D.yr1});
-      d3lines.push({l:`3D-visualisering: År 10 × ${vpT} stk.`,v:vpT*D.yr10});
+    var d3lines = [{ l: '3D-opbygning (' + (ms === 'build' ? 'inkl. modellering' : 'leveret model') + ')', v: bc }];
+    if (isSolar) {
+      d3lines.push({ l: '3D-visualisering: År 1 (nyetableret) × ' + vp + ' stk. à ' + fmtDKK(D.yr1), v: vp * D.yr1 });
+      if (pl === 'yes') {
+        d3lines.push({ l: '3D-visualisering: Fuldt udvokset beplantning × ' + vp + ' stk. à ' + fmtDKK(D.yr10), v: vp * D.yr10 });
+      }
+    } else if (pl === 'yes') {
+      d3lines.push({ l: '3D-visualisering: År 1 (nyetableret) à ' + fmtDKK(D.yr1), v: D.yr1 });
+      d3lines.push({ l: '3D-visualisering: Fuldt udvokset beplantning × ' + vp + ' stk. à ' + fmtDKK(D.yr10), v: vp * D.yr10 });
     } else {
-      d3lines.push({l:`3D-visualiseringer × ${vpT} standpunkter`,v:vpT*D.vis});
+      d3lines.push({ l: '3D-visualisering × ' + vp + ' standpunkter à ' + fmtDKK(D.vis), v: vp * D.vis });
     }
-    a(d3lines,'3D-visualisering');
+    addSection(d3lines, '3D-visualisering');
   }
 
-  if($('is-island').checked){
-    sections.push({h:'Tillæg',lines:[{l:'Færge / bro-udgifter',v:null,note:true}]});
+  if (isAbroad) {
+    sections.push({ h: 'Tillæg – udland / Sverige', lines: [
+      { l: 'Transport, overnatning og rejseudgifter', v: null, note: true },
+      { l: 'Endelig pris oplyses i tilbuddet efter aftale', v: null, note: true }
+    ]});
+  } else if (isBornholm) {
+    sections.push({ h: 'Tillæg – Bornholm', lines: [
+      { l: 'Færge eller fly + evt. overnatning', v: null, note: true },
+      { l: 'Endelig pris oplyses i tilbuddet efter aftale', v: null, note: true }
+    ]});
+  } else if (isIsland) {
+    sections.push({ h: 'Tillæg', lines: [{ l: 'Færge / bro-udgifter – aftales særskilt', v: null, note: true }] });
   }
 
-  const totalInc=totalEx*VAT;
-  calcR={totalEx,totalInc,low:totalInc*.91,high:totalInc*1.10,sections,vpP,vpD,vpT,dist};
+  var totalInc = totalEx * VAT;
+  calcR = { totalEx: totalEx, totalInc: totalInc, low: totalInc * 0.91, high: totalInc * 1.10, sections: sections, vp: vp, dist: dist };
 
-  const svcStr=selSvc.map(s=>s==='photo'?'terrænfotografi':s==='drone'?'dronefotografi':'3D-visualisering').join(' + ');
-  $('teaser-range').textContent=`${fmtDKK(calcR.low)} – ${fmtDKK(calcR.high)}`;
-  $('teaser-sub').textContent=`${svcStr.charAt(0).toUpperCase()+svcStr.slice(1)}`+(dist?` · ${dist} km fra Galten`:'');
-  $('blur-val').textContent=`${fmtDKK(totalInc)} inkl. moms`;
+  var svcStr = selSvc.map(function(s){ return s==='photo'?'terrænfotografi':s==='drone'?'dronefotografi':'3D-visualisering'; }).join(' + ');
+  el('teaser-range').textContent = fmtDKK(calcR.low / VAT) + ' – ' + fmtDKK(calcR.high / VAT);
+  el('teaser-sub').textContent = svcStr.charAt(0).toUpperCase() + svcStr.slice(1) + (dist ? ' · ' + dist + ' km fra Galten' : '') + ' · ekskl. moms';
+  el('blur-val').textContent = fmtDKK(totalEx) + ' kr. ekskl. moms';
+  // Stykpris i teaser – spænd baseret på low/high
+  var has3d = selSvc.indexOf('3d') !== -1;
+  el('teaser-unit-label').textContent = has3d ? 'Ca. stykpris pr. visualisering' : 'Ca. stykpris pr. foto';
+  el('teaser-unit-price').textContent = fmtDKK(Math.round(calcR.low / VAT / vp)) + ' – ' + fmtDKK(Math.round(calcR.high / VAT / vp));
 
-  hide('step1'); show('step2');
-  window.scrollTo({top:0,behavior:'smooth'});
+  hide('step1');
+  show('step2');
+  el('step2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch(e) {}
 }
 
 // ── Lead form ──────────────────────────────────────────────────────────────
-async function sendLead(){
-  const name=$('c-name').value.trim(), email=$('c-email').value.trim();
-  if(!name){ alert('Skriv venligst dit navn.'); return; }
-  if(!email||!email.includes('@')){ alert('Skriv venligst en gyldig e-mail.'); return; }
-  const btn=$('send-btn'); btn.disabled=true; btn.textContent='Sender...';
-  const r=calcR;
-  const msg=[
-    'Ny forespørgsel via prisberegner','',
-    'KONTAKT',`Navn: ${name}`,`E-mail: ${email}`,`Telefon: ${$('c-phone').value.trim()||'Ikke angivet'}`,
-    '','PROJEKT',`Type: ${selType}`,`Ydelser: ${selSvc.join(', ')}`,
-    `Standpunkter – terræn: ${r.vpP||'–'}`,`Standpunkter – drone: ${r.vpD||'–'}`,`Standpunkter – 3D: ${r.vpT||'–'}`,
-    `Adresse: ${$('address').value||'Ikke angivet'}`,`Vejafstand: ${r.dist?r.dist+' km':'Ikke beregnet'}`,
-    '','ESTIMAT',
-    `Ekskl. moms: ${Math.round(r.totalEx)} kr.`,`Inkl. moms: ${Math.round(r.totalInc)} kr.`,
-    `Spænd: ${Math.round(r.low)}–${Math.round(r.high)} kr.`,
-    '','BEMÆRKNINGER',$('c-notes').value.trim()||'Ingen'
-  ].join('\n');
-  try{
-    await fetch('https://formspree.io/f/INDSAET_DIN_FORMSPREE_ID',{
-      method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body:JSON.stringify({name,email,_subject:`Forespørgsel: ${selType} – ${name}`,message:msg})
-    });
-  }catch(e){}
-  showFull();
+function sendLead() {
+  var firstname = el('c-firstname').value.trim();
+  var lastname  = el('c-lastname').value.trim();
+  var email     = el('c-email').value.trim();
+  var valid = true;
+
+  // Reset borders
+  ['c-firstname','c-lastname','c-email'].forEach(function(id){
+    el(id).style.borderColor = '';
+  });
+
+  if (!firstname) { el('c-firstname').style.borderColor = '#c0392b'; if(valid) el('c-firstname').focus(); valid = false; }
+  if (!lastname)  { el('c-lastname').style.borderColor  = '#c0392b'; if(valid) el('c-lastname').focus();  valid = false; }
+  if (!email || email.indexOf('@') === -1) { el('c-email').style.borderColor = '#c0392b'; if(valid) el('c-email').focus(); valid = false; }
+  if (!valid) return;
+
+  var name = firstname + ' ' + lastname;
+  var btn = el('send-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sender...';
+
+  var r = calcR;
+  var lines = [
+    'Ny forespørgsel via prisberegner', '',
+    'KONTAKT',
+    'Navn: ' + name,
+    'E-mail: ' + email,
+    'Telefon: ' + (el('c-phone').value.trim() || 'Ikke angivet'),
+    '', 'PROJEKT',
+    'Type: ' + selType,
+    'Ydelser: ' + selSvc.join(', '),
+    'Hektar: ' + (el('hectares').value || '–'),
+    'Vindmøller: ' + (el('windmills').value || '–'),
+    'Standpunkter: ' + (r.vp || '–'),
+    'Adresse: ' + (el('address').value || 'Ikke angivet'),
+    'Vejafstand: ' + (r.dist ? r.dist + ' km' : 'Ikke beregnet'),
+    '', 'ESTIMAT',
+    'Ekskl. moms: ' + Math.round(r.totalEx) + ' kr.',
+    'Inkl. moms: ' + Math.round(r.totalInc) + ' kr.',
+    'Spænd ekskl. moms: ' + Math.round(r.low / VAT) + '–' + Math.round(r.high / VAT) + ' kr.',
+    '', 'BEMÆRKNINGER',
+    el('c-notes').value.trim() || 'Ingen'
+  ];
+
+  emailjs.send(EJS_SERVICE, EJS_TEMPLATE, {
+    from_name: name,
+    reply_to:  email,
+    subject:   'Forespørgsel: ' + selType + ' – ' + name,
+    message:   lines.join('\n')
+  }).then(function(){ showFull(); }).catch(function(){ showFull(); });
 }
 
-function showFull(){
-  hide('lead-form'); hide('back-btn');
-  const r=calcR;
-  $('f-total').textContent=fmtDKK(r.totalInc);
-  $('f-sub').textContent=`Realistisk spænd: ${fmtDKK(r.low)} – ${fmtDKK(r.high)}`;
-  let html='';
-  r.sections.forEach(sec=>{
-    html+=`<p class="bk-sec">${sec.h}</p>`;
-    sec.lines.forEach(l=>{
-      if(l.note) html+=`<div class="bk-row"><span>${l.l}</span><span style="color:rgba(255,255,255,.35);font-style:italic">Tillæg – aftales</span></div>`;
-      else html+=`<div class="bk-row"><span>${l.l}</span><span>${fmtDKK(l.v)}</span></div>`;
-    });
-  });
-  html+=`<div class="bk-row"><span>Subtotal ekskl. moms</span><span>${fmtDKK(r.totalEx)}</span></div>`;
-  html+=`<div class="bk-row"><span>Moms 25%</span><span>${fmtDKK(r.totalEx*.25)}</span></div>`;
-  html+=`<div class="bk-row total"><span>I alt inkl. moms</span><span class="g">${fmtDKK(r.totalInc)}</span></div>`;
-  $('bk-list').innerHTML=html;
+function showFull() {
+  hide('lead-form');
+  hide('back-btn');
+  var r = calcR;
+  el('f-total').textContent = fmtDKK(r.totalEx);
+  el('f-sub').textContent = 'Inkl. moms: ' + fmtDKK(r.totalInc) + '  ·  Alle priser er ekskl. moms';
 
-  const vpMain=r.vpP||r.vpD||r.vpT||'–';
-  $('info-tiles').innerHTML=`
-    <div class="tile"><div class="v">${vpMain}</div><div class="l">Standpunkter</div></div>
-    <div class="tile"><div class="v">${r.dist>0?r.dist+' km':'–'}</div><div class="l">Vejafstand</div></div>
-    <div class="tile"><div class="v">${selSvc.map(s=>s==='photo'?'Foto':s==='drone'?'Drone':'3D').join('+')} </div><div class="l">Ydelser</div></div>
-    <div class="tile"><div class="v">${fmtDKK(r.totalInc)}</div><div class="l">I alt inkl. moms</div></div>`;
+  var html = '';
+  // Stykpris = samlet ekskl. moms / antal standpunkter – stor og tydelig øverst
+  var unitPrice = Math.round(r.totalEx / r.vp);
+  var has3d = selSvc.indexOf('3d') !== -1;
+  var unitLabel = has3d ? 'Ca. stykpris pr. visualisering' : 'Ca. stykpris pr. foto';
+  html += '<div style="padding-bottom:12px;margin-bottom:10px;border-bottom:.5px solid rgba(255,255,255,.2)">';
+  html += '<div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:4px">' + unitLabel + '</div>';
+  html += '<div style="font-size:2rem;font-weight:400;color:#fff;font-family:\'DM Serif Display\',serif;line-height:1.1">' + fmtDKK(unitPrice) + '</div>';
+  html += '<div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:3px">ekskl. moms &nbsp;·&nbsp; baseret på ' + r.vp + ' standpunkter</div>';
+  html += '</div>';
+  // Poster uden sektionsoverskrifter
+  for (var s = 0; s < r.sections.length; s++) {
+    var sec = r.sections[s];
+    for (var l = 0; l < sec.lines.length; l++) {
+      var line = sec.lines[l];
+      if (line.note) {
+        html += '<div class="bk-row"><span>' + line.l + '</span><span style="color:rgba(255,255,255,.35);font-style:italic">Tillæg – aftales</span></div>';
+      } else {
+        html += '<div class="bk-row"><span>' + line.l + '</span><span>' + fmtDKK(line.v) + '</span></div>';
+      }
+    }
+  }
+  html += '<div class="bk-row" style="border-top:.5px solid rgba(255,255,255,.15);margin-top:8px;padding-top:10px;color:#fff;font-weight:500"><span>I alt ekskl. moms</span><span class="g">' + fmtDKK(r.totalEx) + '</span></div>';
+  html += '<div class="bk-row" style="color:rgba(255,255,255,.45);font-size:12px"><span>Moms 25%</span><span>' + fmtDKK(r.totalEx * 0.25) + '</span></div>';
+  html += '<div class="bk-row" style="color:rgba(255,255,255,.45);font-size:12px"><span>I alt inkl. moms</span><span>' + fmtDKK(r.totalInc) + '</span></div>';
+  if (selSvc.indexOf('3d') !== -1) {
+    html += '<div style="margin-top:10px;padding-top:10px;border-top:.5px solid rgba(255,255,255,.1);font-size:12px;color:rgba(255,255,255,.4);font-style:italic">Bemærk: Omfanget af 3D-modellen (simpel eller kompleks) kan have betydning for det endelige tilbud, som aftales nærmere via e-mail eller telefon.</div>';
+  }
+  el('bk-list').innerHTML = html;
 
-  const isVE=['solar','wind','combined'].includes(selType);
-  $('green-note').innerHTML=isVE
-    ?'<strong>Vidste du?</strong> Mange kommuner undervurderer prisen på målfaste 3D-visualiseringer og afstår fra at kræve det af bygherre. Ovenstående viser, at det er overkommeligt – og du kan se præcis hvad du betaler for.'
-    :'<strong>Transparent prissætning.</strong> Alle poster er specificerede – ingen skjulte gebyrer.';
+  el('info-tiles').innerHTML =
+    '<div class="tile"><div class="v">' + (r.vp || '–') + '</div><div class="l">Standpunkter</div></div>' +
+    '<div class="tile"><div class="v">' + (r.dist > 0 ? r.dist + ' km' : '–') + '</div><div class="l">Vejafstand</div></div>' +
+    '<div class="tile"><div class="v">' + selSvc.map(function(s){ return s==='photo'?'Foto':s==='drone'?'Drone':'3D'; }).join('+') + '</div><div class="l">Ydelser</div></div>' +
+    '<div class="tile"><div class="v">' + fmtDKK(r.totalEx) + '</div><div class="l">Ekskl. moms</div></div>';
+
   show('full-result');
 }
 
-function reset(){
-  hide('step2'); show('step1');
-  hide('full-result'); show('lead-form'); show('back-btn');
-  $('send-btn').disabled=false; $('send-btn').textContent='Vis præcis pris og send forespørgsel';
-  window.scrollTo({top:0,behavior:'smooth'});
+function reset() {
+  hide('step2');
+  show('step1');
+  hide('full-result');
+  show('lead-form');
+  show('back-btn');
+  el('send-btn').disabled = false;
+  el('send-btn').textContent = 'Vis præcis pris og send forespørgsel';
+  el('step1').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch(e) {}
 }
 </script>
 
-<!-- Google Maps callback – skal stå efter scriptet ovenfor -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_X_a_NUof4sXlPDa3qP6bj3KpNXPsMrQ&libraries=places&language=da&region=DK&callback=initMaps" async defer></script>
+<script>
+  emailjs.init({ publicKey: EJS_KEY });
+</script>
 </body>
 </html>
