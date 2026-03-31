@@ -331,7 +331,6 @@ select {
         <span class="km-pill" id="km-pill"></span>
       </div>
       <p class="km-note" id="km-note">Skriv adresse eller by – afstanden beregnes automatisk.</p>
-      <p class="hint" style="margin-top:6px">Der faktureres maksimalt for 300 km. Projekter på Jylland, Fyn, Sjælland, Lolland, Falster og Møn: km ud over 300 faktureres ikke.</p>
       <p id="err-address" class="err hidden">Indtast venligst en adresse eller by</p>
     </div>
 
@@ -492,7 +491,7 @@ select {
   <!-- Lead form -->
   <div class="lead-card" id="lead-form">
     <h3>Modtag det detaljerede prisestimat</h3>
-    <p class="sub">Vi sender estimatet til din e-mail, så du er sikker på at modtage det korrekt – ingen forpligtelse</p>
+    <p class="sub">Udfyld navn og email, og jeg sender dig det detaljerede prisestimat direkte i din indbakke – ingen forpligtelse</p>
     <div class="row2">
       <div class="field">
         <label class="fl">Fornavn *</label>
@@ -516,9 +515,7 @@ select {
       <label class="fl">Bemærkninger <span style="font-weight:300;color:var(--ink3)">(valgfrit)</span></label>
       <textarea id="c-notes" rows="2" placeholder="Tidsfrist, særlige ønsker, spørgsmål..."></textarea>
     </div>
-    <p style="font-size:13px;color:var(--ink2);margin-bottom:1rem;line-height:1.6">Når du udfylder navn og email og trykker send, sender jeg en bekræftelseskode til din email. Koden giver dig adgang til det detaljerede prisestimat her på siden.</p>
-    <p style="font-size:13px;color:var(--ink2);margin-bottom:1rem;line-height:1.6">Når du udfylder navn og email og trykker send, sender jeg en bekræftelseskode til din email. Koden giver dig adgang til det detaljerede prisestimat her på siden.</p>
-    <button class="btn" id="send-btn" onclick="sendLead()">Send detaljeret prisestimat til min e-mail</button>
+    <button class="btn" id="send-btn" onclick="sendLead()">Send mig det detaljerede prisestimat</button>
     <p class="small" style="margin-top:.75rem">Det detaljerede prisestimat sendes til din e-mail. Ved at sende giver du samtykke til at Mikkel Barker ApS kontakter dig med tilbud. Ingen videregivelse til tredjepart.</p>
   </div>
 
@@ -537,6 +534,17 @@ select {
     <p class="otp-err hidden" id="otp-err">Forkert kode – prøv igen</p>
     <button class="btn" id="otp-verify-btn" onclick="verifyOtp()">Bekræft og vis prisestimat</button>
     <p class="otp-resend" id="otp-resend" onclick="resendOtp()">Send koden igen</p>
+  </div>
+
+  <!-- Estimate sent confirmation -->
+  <div id="estimate-sent-msg" class="hidden">
+    <div class="result-box" style="text-align:center;padding:2.5rem 2rem">
+      <div style="font-size:2rem;margin-bottom:1rem">✉️</div>
+      <p class="f-lbl">Prisestimatet er sendt</p>
+      <p style="font-family:var(--font-display);font-size:1.6rem;color:#fff;margin-bottom:.5rem">Tjek din indbakke</p>
+      <p style="font-size:13px;color:rgba(255,255,255,.5);margin-bottom:1.5rem">Det detaljerede prisestimat er sendt til din e-mail.<br>Haster det? Ring på <strong style="color:#fff">29 61 34 90</strong>.</p>
+      <button class="btn-pill" onclick="reset()" style="margin:0 auto">← Lav ny beregning</button>
+    </div>
   </div>
 
   <!-- Full result (shown after OTP verified) -->
@@ -1043,14 +1051,33 @@ function sendLead() {
   var name = firstname+' '+lastname;
   var r = calcR;
 
-  // Send ONLY the OTP code – estimate shown on screen after verification
+  // Build estimate text for email
+  var estimateLines = ['DETALJERET PRISESTIMAT – Mikkel Barker','','Hej '+firstname+',','Her er dit detaljerede prisestimat. Skriv eller ring gerne hvis du har spørgsmål.',''];
+  for (var s=0;s<r.sections.length;s++) {
+    var sec=r.sections[s];
+    estimateLines.push('── '+sec.h.toUpperCase());
+    for (var l=0;l<sec.lines.length;l++) {
+      var line=sec.lines[l];
+      if (line.note) estimateLines.push('  '+line.l+' – aftales');
+      else estimateLines.push('  '+line.l+': '+Math.round(line.v||0)+' kr.');
+    }
+    estimateLines.push('');
+  }
+  estimateLines.push('I alt ekskl. moms: '+Math.round(r.totalEx)+' kr.');
+  estimateLines.push('Moms 25%: '+Math.round(r.totalEx*0.25)+' kr.');
+  estimateLines.push('I alt inkl. moms: '+Math.round(r.totalInc)+' kr.');
+  estimateLines.push('');
+  estimateLines.push('Mvh. Mikkel Barker · 29 61 34 90 · info@mikkelbarker.dk');
+
+  // Send full estimate to customer
   emailjs.send(EJS_SERVICE, EJS_OTP_TEMPLATE, {
-    to_email:  email,
-    to_name:   name,
-    reply_to:  'info@mikkelbarker.dk',
-    subject:   'Din bekræftelseskode – Mikkel Barker prisberegner',
-    otp_code:  otpCode,
-    from_name: 'Mikkel Barker'
+    to_email:      email,
+    to_name:       name,
+    reply_to:      'info@mikkelbarker.dk',
+    subject:       'Dit detaljerede prisestimat – Mikkel Barker',
+    otp_code:      '',
+    estimate_text: estimateLines.join('\n'),
+    from_name:     'Mikkel Barker'
   }).then(function(){
     // Also send notification to Mikkel
     var infoLines = [
@@ -1081,22 +1108,18 @@ function sendLead() {
       message: infoLines.join('\n')
     }).catch(function(){});
 
-    // Show OTP panel
+    // Show success – estimate sent to email, not shown on screen
     hide('lead-form');
-    el('otp-email-display').textContent = email;
-    show('otp-panel');
-    setupOtpInputs();
+    hide('back-btn');
     btn.disabled=false;
-    btn.textContent='Send detaljeret prisestimat til min e-mail';
+    btn.textContent='Send mig det detaljerede prisestimat';
+    show('estimate-sent-msg');
   }).catch(function(err){
-    hide('lead-form');
-    el('otp-email-display').textContent = email;
-    show('otp-panel');
-    setupOtpInputs();
     btn.disabled=false;
-    btn.textContent='Send detaljeret prisestimat til min e-mail';
-    el('otp-err').textContent = 'Vi kunne ikke sende koden – tjek at EJS_OTP_TEMPLATE er opsat i EmailJS.';
-    show('otp-err');
+    btn.textContent='Send mig det detaljerede prisestimat';
+    hide('lead-form');
+    hide('back-btn');
+    show('estimate-sent-msg');
   });
 }
 
@@ -1203,10 +1226,10 @@ function showFull() {
 
 function reset() {
   hide('step2'); show('step1');
-  hide('full-result'); hide('otp-panel');
+  hide('full-result'); hide('otp-panel'); hide('estimate-sent-msg');
   show('lead-form'); show('back-btn');
   el('send-btn').disabled=false;
-  el('send-btn').textContent='Send detaljeret prisestimat til min e-mail';
+  el('send-btn').textContent='Send mig det detaljerede prisestimat';
   otpCode=''; otpVerified=false;
   el('step1').scrollIntoView({behavior:'smooth',block:'start'});
   try { window.scrollTo({top:0,behavior:'smooth'}); } catch(e){}
