@@ -576,7 +576,19 @@ function loadSheet(){
     console.log('[Design Sheet] fs-card-h =', m['fs-card-h']);
     console.log('[Design Sheet] root element:', document.body ? 'body' : 'html');
     console.log('[Design Sheet] fw-card-h =', m['fw-card-h']);
+    console.log('[Design Sheet] font-card-h =', m['font-card-h']);
     applyDesign(m);
+    // Check font after apply
+    setTimeout(function(){
+      var h3 = document.querySelector('.card h3');
+      if(h3) {
+        var cs = getComputedStyle(h3);
+        console.log('[Font check] fontFamily:', cs.fontFamily);
+        console.log('[Font check] fontWeight:', cs.fontWeight);
+        console.log('[Font check] --fw-card-h:', getComputedStyle(document.body).getPropertyValue('--fw-card-h'));
+        console.log('[Font check] --font-card-h:', getComputedStyle(document.body).getPropertyValue('--font-card-h'));
+      }
+    }, 500);
   }).catch(function(e){console.log('[Design Sheet] ERROR:',e);});
 }
 loadSheet();
