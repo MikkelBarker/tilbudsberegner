@@ -728,9 +728,16 @@ function readVp(type){
 
 // ══ TRAVEL ══
 function travelLines(dist){
-  var km=Math.min(dist,P.maxKm),hr=Math.min(Math.round((dist>0?dist/80:0)*2)/2,P.maxHr),lines=[];
-  if(km>0) lines.push({l:'Kørsel '+km+' km (à '+P.kmRate+' kr.)',v:km*P.kmRate});
-  if(hr>0) lines.push({l:'Transport '+hr+' timer',v:hr*P.transHr});
+  // km: one-way dist capped at maxKm/2 (maxKm is tur-retur limit)
+  var halfMax = P.maxKm / 2;
+  var km = Math.min(dist, halfMax);
+  var rtKm = km * 2; // tur-retur km
+  // hours: based on maxKm/100 rounded to nearest 0.5
+  var rawHr = P.maxKm / 100;
+  var hr = Math.round(rawHr * 2) / 2;
+  var lines = [];
+  if(km > 0) lines.push({l:'Kørsel '+rtKm+' km t/r (à '+P.kmRate+' kr.)', v:rtKm*P.kmRate});
+  if(hr > 0) lines.push({l:'Transport '+hr+' timer', v:hr*P.transHr});
   return lines;
 }
 
